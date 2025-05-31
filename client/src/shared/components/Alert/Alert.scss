@@ -1,0 +1,33 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.shared-alert {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-md $spacing-lg;
+  border-radius: $border-radius;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: $spacing-md 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  &.success {
+    background: #e6f9ed;
+    color: #1a7f37;
+    border: 1px solid #b7e4c7;
+  }
+  &.error {
+    background: #fdeaea;
+    color: #c0392b;
+    border: 1px solid #f5b7b1;
+  }
+  &.info {
+    background: #eaf4fd;
+    color: #21618c;
+    border: 1px solid #aed6f1;
+  }
+  @include respond-to(xs) {
+    font-size: 0.95rem;
+    padding: $spacing-sm $spacing-md;
+  }
+}

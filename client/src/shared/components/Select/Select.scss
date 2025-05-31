@@ -1,0 +1,35 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.shared-select {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+
+  label {
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+  }
+
+  select {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.2s;
+    background: #fff;
+    &:focus {
+      border-color: $primary-color;
+      outline: none;
+    }
+    &.error {
+      border-color: #e74c3c;
+    }
+  }
+
+  .select-error {
+    color: #e74c3c;
+    font-size: 0.85rem;
+    margin-top: 0.2rem;
+  }
+}

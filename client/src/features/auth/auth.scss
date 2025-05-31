@@ -1,0 +1,43 @@
+@import '../../styles/variables';
+@import '../../styles/mixins';
+
+.auth-content {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: $spacing-xl $spacing-lg;
+  background: #fff;
+  border-radius: $border-radius;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  text-align: center;
+  @include respond-to(xs) {
+    padding: $spacing-lg $spacing-sm;
+  }
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+  margin-top: $spacing-md;
+}
+
+.auth-error {
+  color: #e74c3c;
+  font-size: 0.95rem;
+  margin-bottom: $spacing-sm;
+  margin-top: -$spacing-xs;
+  text-align: center;
+}
+
+.auth-toggle {
+  margin-top: $spacing-md;
+  font-size: 1rem;
+  a {
+    color: $primary-color;
+    text-decoration: underline;
+    margin-left: 0.25em;
+    &:hover {
+      color: darken($primary-color, 10%);
+    }
+  }
+}
