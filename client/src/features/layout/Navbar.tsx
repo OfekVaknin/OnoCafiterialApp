@@ -7,7 +7,7 @@ import { faBars } from '@fortawesome/free-solid-svg-icons';
 import { authService } from '../auth/services/authService';
 import { UserRoleEnum } from '../user/enums/UserRoleEnum';
 import './layout.scss';
-import CartIcon from '../menu/CartIcon';
+import CartIcon from '../cart/components/CartIcon';
 
 export const Navbar = () => {
   const { t, i18n } = useTranslation();

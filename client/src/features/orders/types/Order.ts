@@ -1,5 +1,5 @@
-import type { OrderItem } from './OrderItem';
-import { OrderStatusEnum } from '../enums/OrderStatusEnum';
+import type { OrderItem } from "./OrderItem";
+import { OrderStatusEnum } from "../enums/OrderStatusEnum";
 
 export interface Order {
   id: string;
@@ -8,5 +8,5 @@ export interface Order {
   status: OrderStatusEnum;
   total: number;
   createdAt: string;
-  documentNumber: number;
+  documentNumber?: number;
 }

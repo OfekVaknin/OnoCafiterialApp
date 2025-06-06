@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { menuItemService } from './services/menuItemService';
 import type { MenuItem } from './types/MenuItem';
 import styles from './MenuGallery.module.scss';
-import { useCartStore } from './useCartStore';
-import type { CartItem } from './useCartStore';
+import { useCartStore } from '../cart/store/useCartStore';
+import type { CartItem } from '../cart/store/useCartStore';
 import { Button } from '../../shared/components/Button/Button';
 
 const DEFAULT_IMAGE = 'https://via.placeholder.com/120?text=No+Image';

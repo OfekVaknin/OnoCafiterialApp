@@ -15,7 +15,12 @@ import { authService } from "./features/auth/services/authService";
 import { RequireAdmin } from "./features/auth/RequireAdmin";
 import type { ReactElement } from "react";
 import ManageOrdersScreen from "./features/admin/manageOrders/ManageOrdersScreen";
-import CartScreen from "./features/menu/CartScreen";
+import CartScreen from "./features/cart/pages/CartScreen";
+import ManageMenuPage from "./features/menu/pages/admin/ManageMenu/ManageMenuPage";
+import MenuCategoriesTab from "./features/menu/components/admin/MenuCategoriesTab/MenuCategoriesTab";
+import MenuItemsTab from "./features/menu/components/admin/MenuItemsTab/MenuItemsTab";
+import AddOrUpdateCategoryPage from "./features/menu/pages/admin/ManageMenu/AddOrUpdateCategoryPage/AddOrUpdateCategoryPage";
+import AddOrUpdateMenuItemPage from "./features/menu/pages/admin/ManageMenu/AddOrUpdateMenuItemPage/AddOrUpdateMenuItemPage";
 
 function RequireAuth({ children }: { children: ReactElement }) {
   if (!authService.isAuthenticated()) {
@@ -43,6 +48,7 @@ const AppRouter = () => (
       <Route path="feedback" element={<FeedbackScreen />} />
       <Route path="logout" element={<LogoutScreen />} />
       <Route path="cart" element={<CartScreen />} />
+
       {/* Admin routes */}
       <Route
         path="dashboard"
@@ -52,14 +58,27 @@ const AppRouter = () => (
           </RequireAdmin>
         }
       />
+
       <Route
         path="manage-menu"
         element={
           <RequireAdmin>
-            <ManageMenuScreen />
+            <ManageMenuPage />
           </RequireAdmin>
         }
-      />
+      >
+        <Route index element={<Navigate to="items" replace />} />
+        <Route path="items" element={<MenuItemsTab />} />
+        <Route path="categories" element={<MenuCategoriesTab />} />
+        <Route path="categories/add" element={<AddOrUpdateCategoryPage />} />
+        <Route
+          path="categories/edit/:id"
+          element={<AddOrUpdateCategoryPage />}
+        />
+        <Route path="items/add" element={<AddOrUpdateMenuItemPage />} />
+        <Route path="items/edit/:id" element={<AddOrUpdateMenuItemPage />} />
+      </Route>
+
       <Route
         path="manage-orders"
         element={

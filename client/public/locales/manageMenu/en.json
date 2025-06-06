@@ -1,0 +1,75 @@
+{
+  "title": "Manage Menu",
+  "tabs": {
+    "items": "Items",
+    "categories": "Categories"
+  },
+  "categories": {
+    "actions": {
+      "add": "Add New Category",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "columns": {
+      "name": "Name",
+      "description": "Description",
+      "createdAt": "Created At"
+    },
+    "empty": "No categories found.",
+    "confirmDelete": "Are you sure you want to delete this category?",
+    "addOrUpdate": {
+      "form": {
+        "addTitle": "Add New Category",
+        "editTitle": "Edit Category",
+        "fields": {
+          "name": "Category Name",
+          "description": "Description"
+        },
+        "actions": {
+          "create": "Create",
+          "save": "Save",
+          "cancel": "Cancel"
+        },
+        "errors": {
+          "required": "This field is required"
+        }
+      }
+    }
+  },
+  "items": {
+    "actions": {
+      "add": "Add New Item",
+      "edit": "Edit",
+      "delete": "Delete"
+    },
+    "columns": {
+      "name": "Name",
+      "description": "Description",
+      "price": "Price",
+      "createdAt": "Created At"
+    },
+    "empty": "No items found.",
+    "confirmDelete": "Are you sure you want to delete this item?",
+    "addOrUpdate": {
+      "form": {
+        "addTitle": "Add New Item",
+        "editTitle": "Edit Item",
+        "fields": {
+          "name": "Item Name",
+          "description": "Description",
+          "price": "Price",
+          "category": "Category",
+          "available": "Available"
+        },
+        "actions": {
+          "create": "Create",
+          "save": "Save",
+          "cancel": "Cancel"
+        },
+        "errors": {
+          "required": "This field is required"
+        }
+      }
+    }
+  }
+}

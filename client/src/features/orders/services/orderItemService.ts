@@ -1,4 +1,4 @@
-import type { OrderItem } from '../../../shared/types/OrderItem';
+import type { OrderItem } from "../types/OrderItem";
 
 const STORAGE_KEY = 'orderItems';
 

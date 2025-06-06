@@ -1,4 +1,4 @@
-import type { Feedback } from '../../../shared/types/Feedback';
+import type { Feedback } from "../types/Feedback";
 
 const STORAGE_KEY = 'feedbacks';
 

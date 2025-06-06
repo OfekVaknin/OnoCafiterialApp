@@ -1,0 +1,75 @@
+{
+  "title": "ניהול תפריט",
+  "tabs": {
+    "items": "פריטים",
+    "categories": "קטגוריות"
+  },
+  "categories": {
+    "actions": {
+      "add": "הוסף קטגוריה חדשה",
+      "edit": "ערוך",
+      "delete": "מחק"
+    },
+    "columns": {
+      "name": "שם",
+      "description": "תיאור",
+      "createdAt": "נוצר בתאריך"
+    },
+    "empty": "לא נמצאו קטגוריות.",
+    "confirmDelete": "האם אתה בטוח שברצונך למחוק את הקטגוריה הזו?",
+    "addOrUpdate": {
+      "form": {
+        "addTitle": "הוסף קטגוריה חדשה",
+        "editTitle": "ערוך קטגוריה",
+        "fields": {
+          "name": "שם הקטגוריה",
+          "description": "תיאור"
+        },
+        "actions": {
+          "create": "צור",
+          "save": "שמור",
+          "cancel": "ביטול"
+        },
+        "errors": {
+          "required": "שדה זה חובה"
+        }
+      }
+    }
+  },
+  "items": {
+    "actions": {
+      "add": "הוסף פריט חדש",
+      "edit": "ערוך",
+      "delete": "מחק"
+    },
+    "columns": {
+      "name": "שם",
+      "description": "תיאור",
+      "price": "מחיר",
+      "createdAt": "נוצר בתאריך"
+    },
+    "empty": "לא נמצאו פריטים.",
+    "confirmDelete": "האם אתה בטוח שברצונך למחוק את הפריט הזה?",
+    "addOrUpdate": {
+      "form": {
+        "addTitle": "הוסף פריט חדש",
+        "editTitle": "ערוך פריט",
+        "fields": {
+          "name": "שם הפריט",
+          "description": "תיאור",
+          "price": "מחיר",
+          "category": "קטגוריה",
+          "available": "זמין"
+        },
+        "actions": {
+          "create": "צור",
+          "save": "שמור",
+          "cancel": "ביטול"
+        },
+        "errors": {
+          "required": "שדה זה חובה"
+        }
+      }
+    }
+  }
+}

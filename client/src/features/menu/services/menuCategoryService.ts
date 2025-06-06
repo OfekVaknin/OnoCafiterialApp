@@ -1,4 +1,4 @@
-import type { MenuCategory } from '../../../shared/types/MenuCategory';
+import type { MenuCategory } from "../types/MenuCategory";
 
 const STORAGE_KEY = 'menuCategories';
 
