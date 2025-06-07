@@ -16,8 +16,27 @@ const BaseInput: React.FC<TextFieldProps> = ({
       {...props}
       required={required}
       fullWidth
-      variant="outlined"
-      sx={{ mb: 2 }}
+      variant="filled"
+      sx={{
+        mb: 2,
+        "& .MuiInputBase-input": {
+          textAlign: "right",
+          paddingRight: "14px",
+          direction: "rtl",
+        },
+        "& .MuiInputBase-input::placeholder": {
+          textAlign: "right",
+          opacity: 1,
+          paddingRight: "0px",
+        },
+        "& .MuiOutlinedInput-root": {
+          "& input": {
+            textAlign: "right",
+            direction: "rtl",
+          },
+        },
+        ...props.sx,
+      }}
       error={showError || props.error}
       helperText={showError ? "שדה חובה" : props.helperText}
       onBlur={(e) => {

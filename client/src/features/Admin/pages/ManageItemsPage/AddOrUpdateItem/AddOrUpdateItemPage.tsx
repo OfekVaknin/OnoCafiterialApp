@@ -196,7 +196,7 @@ const AddOrUpdateItemPage: React.FC = () => {
         </Box>
       </Box>
 
-      <Box sx={{ mt: 3, display: "flex", gap: 2 }}>
+      <Box sx={{ mt: 3, display: "flex", justifyContent: "center", gap: 2 }}>
         <BaseButton onClick={handleSubmit}>
           {isEdit ? "שמור שינויים" : "הוסף מנה"}
         </BaseButton>

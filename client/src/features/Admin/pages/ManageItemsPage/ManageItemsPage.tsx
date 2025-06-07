@@ -28,11 +28,7 @@ const ManageItemsPage: React.FC = () => {
         ניהול מנות
       </Typography>
 
-      <BaseButton
-        startIcon={<AddIcon />}
-        sx={{ mb: 2 }}
-        onClick={() => navigate("/admin/items/add")}
-      >
+      <BaseButton sx={{ mb: 2 }} onClick={() => navigate("/admin/items/add")}>
         הוסף מנה חדשה
       </BaseButton>
 

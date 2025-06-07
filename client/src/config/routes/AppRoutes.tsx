@@ -13,6 +13,7 @@ import ProtectedRoute from "./ProtectedRoute";
 import HomeRedirect from "./HomeRedirect";
 import AddOrUpdateCategoryPage from "../../features/Admin/pages/ManageCategories/AddOrUpdateCategory/AddOrUpdateCategoryPage";
 import AddOrUpdateItemPage from "../../features/Admin/pages/ManageItemsPage/AddOrUpdateItem/AddOrUpdateItemPage";
+import StudentGuidePage from "../../features/Student/pages/StudentGuide/StudentGuidePage";
 
 const AppRoutes: React.FC = () => {
   return (
@@ -38,6 +39,14 @@ const AppRoutes: React.FC = () => {
         element={
           <ProtectedRoute allowedRoles={["student"]}>
             <StudentOrdersPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/guide"
+        element={
+          <ProtectedRoute allowedRoles={["student"]}>
+            <StudentGuidePage />
           </ProtectedRoute>
         }
       />

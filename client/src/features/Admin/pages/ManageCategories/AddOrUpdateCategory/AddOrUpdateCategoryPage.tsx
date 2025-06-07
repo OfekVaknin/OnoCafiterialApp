@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import { Box } from "@mui/material";
 import { menuCategoryService } from "../../../services/menuCategory.service";
 import type { MenuCategory } from "../../../../../shared/types/MenuCategory";
 import BaseInput from "../../../../../shared/BaseInput";
@@ -54,8 +55,18 @@ const AddOrUpdateCategoryPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <Typography variant="h4" gutterBottom>
+    <Box
+      sx={{
+        maxWidth: 500,
+        mx: "auto",
+        mt: 4,
+        px: 2,
+        display: "flex",
+        flexDirection: "column",
+        gap: 2,
+      }}
+    >
+      <Typography variant="h4" gutterBottom align="center">
         {isEdit ? "עריכת קטגוריה" : "הוספת קטגוריה"}
       </Typography>
 
@@ -65,24 +76,24 @@ const AddOrUpdateCategoryPage: React.FC = () => {
         onChange={(e) => setName(e.target.value)}
         required
       />
+
       <BaseInput
         label="תיאור (לא חובה)"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         multiline
+        rows={3}
       />
 
-      <BaseButton sx={{ mt: 2 }} onClick={handleSubmit}>
-        {isEdit ? "שמור שינויים" : "הוסף קטגוריה"}
-      </BaseButton>
-      <BaseButton
-        sx={{ mt: 2, ml: 2 }}
-        variant="outlined"
-        onClick={() => navigate(-1)}
-      >
-        ביטול
-      </BaseButton>
-    </div>
+      <Box display="flex" justifyContent="center" gap={2} mt={2}>
+        <BaseButton onClick={handleSubmit}>
+          {isEdit ? "שמור שינויים" : "הוסף קטגוריה"}
+        </BaseButton>
+        <BaseButton variant="outlined" onClick={() => navigate(-1)}>
+          ביטול
+        </BaseButton>
+      </Box>
+    </Box>
   );
 };
 

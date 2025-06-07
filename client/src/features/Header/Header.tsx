@@ -26,6 +26,7 @@ const Header: React.FC = () => {
   const studentTabs = [
     { label: "תפריט", path: "/menu" },
     { label: "הזמנות שלי", path: "/orders" },
+    { label: "עזרה", path: "/guide" },
   ];
 
   const adminTabs = [
@@ -33,6 +34,7 @@ const Header: React.FC = () => {
     { label: "קטגוריות", path: "/admin/categories" },
     { label: "פריטים", path: "/admin/items" },
     { label: "הזמנות", path: "/admin/orders" },
+    { label: "עזרה", path: "/admin/guide" },
   ];
 
   const tabs =
