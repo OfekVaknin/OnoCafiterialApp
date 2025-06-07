@@ -1,0 +1,57 @@
+import type { MenuItem } from "../../../shared/types/MenuItem";
+
+const STORAGE_KEY = "menuItems";
+
+function getAll(): MenuItem[] {
+  const data = localStorage.getItem(STORAGE_KEY);
+  return data ? JSON.parse(data) : [];
+}
+
+function getById(id: string): MenuItem | undefined {
+  return getAll().find((i) => i.id === id);
+}
+
+function create(item: MenuItem): MenuItem {
+  const items = getAll();
+  if (items.some((i) => i.id === item.id))
+    throw new Error("Menu item already exists");
+  items.push(item);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  return item;
+}
+
+function update(id: string, updates: Partial<MenuItem>): MenuItem | undefined {
+  const items = getAll();
+  const idx = items.findIndex((i) => i.id === id);
+  if (idx === -1) throw new Error("Menu item not found");
+  items[idx] = { ...items[idx], ...updates };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+  return items[idx];
+}
+
+function remove(id: string): boolean {
+  const items = getAll();
+  const filtered = items.filter((i) => i.id !== id);
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
+  return items.length !== filtered.length;
+}
+
+const getMenuItemName = (menuItemId: string): string => {
+  const menuuItem: MenuItem | undefined = getById(menuItemId);
+  return menuuItem ? menuuItem.name : "";
+};
+
+const getMenuItemImageUrl = (menuItemId: string): string => {
+  const menuuItem: MenuItem | undefined = getById(menuItemId);
+  return menuuItem && menuuItem.imageUrl ? menuuItem.imageUrl : "";
+};
+
+export const menuItemService = {
+  getAll,
+  getById,
+  create,
+  update,
+  delete: remove,
+  getMenuItemName,
+  getMenuItemImageUrl,
+};
