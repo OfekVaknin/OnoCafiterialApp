@@ -40,7 +40,7 @@ const CartSummary: React.FC = () => {
 
     const newOrder: Order = {
       id: orderId,
-      userId: user._id,
+      userId: user._id ?? "",
       items: orderItems,
       status: OrderStatusEnum.Pending,
       total,

@@ -25,7 +25,7 @@ const OrderList: React.FC = () => {
     if (user.role === USER_ROLE.Admin) {
       allOrders = await orderService.getAll();
     } else {
-      allOrders = await orderService.getAllByStudent(user._id);
+      allOrders = await orderService.getAllByStudent(user._id ?? "");
     }
 
     const today = new Date().toISOString().split("T")[0];
