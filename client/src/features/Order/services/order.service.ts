@@ -1,95 +1,48 @@
-import { menuItemService } from "../../Admin/services/menuItem.service";
-import { OrderStatusEnum } from "../enums/OrderStatusEnum";
+import api from "../../../lib/axios";
 import type { Order } from "../types/Order";
 
-const STORAGE_KEY = "orders";
+const BASE_URL = "/orders";
 
-function getAll(): Order[] {
-  const data = localStorage.getItem(STORAGE_KEY);
-  return data ? JSON.parse(data) : [];
+// GET all orders (admin)
+async function getAll(): Promise<Order[]> {
+  const res = await api.get<Order[]>(BASE_URL);
+  return res.data;
 }
 
-function getAllStudentOrders(studentId: string): Order[] {
-  const orders = getAll();
-  return orders.filter((o) => o.userId === studentId);
+// GET all orders for a specific student
+async function getAllByStudent(userId: string): Promise<Order[]> {
+  const res = await api.get<Order[]>(`${BASE_URL}/user/${userId}`);
+  return res.data;
 }
 
-function getById(id: string): Order | undefined {
-  return getAll().find((o) => o.id === id);
+// GET order by ID
+async function getById(id: string): Promise<Order> {
+  const res = await api.get<Order>(`${BASE_URL}/${id}`);
+  return res.data;
 }
 
-function getNextDocumentNumber(): number {
-  const key = "orderDocumentNumber";
-  const last = Number(localStorage.getItem(key)) || 1000;
-  const next = last + 1;
-  localStorage.setItem(key, String(next));
-  return next;
+// POST - create new order
+async function create(order: Order): Promise<Order> {
+  const res = await api.post<Order>(BASE_URL, order);
+  return res.data;
 }
 
-function create(order: Order): Order {
-  const orders = getAll();
-  if (orders.some((o) => o.id === order.id))
-    throw new Error("Order already exists");
-
-  if (typeof order.documentNumber !== "number") {
-    order.documentNumber = getNextDocumentNumber();
-  }
-
-  const now = new Date();
-  const createdAt = now.toISOString();
-
-  // Calculate max preparing time from items
-  const preparingTimes = order.items.map((item) => {
-    const menuItem = menuItemService.getById(item.menuItemId);
-    return menuItem?.preparingTimeInMin || 0;
-  });
-
-  const maxTime = preparingTimes.length > 0 ? Math.max(...preparingTimes) : 0;
-
-  order.createdAt = createdAt;
-  order.updatedAt = createdAt;
-  order.preparingTimeInMin = maxTime;
-  order.readyAt = new Date(now.getTime() + maxTime * 60000).toISOString();
-
-  orders.push(order);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
-  return order;
+// PATCH - update order
+async function update(id: string, updates: Partial<Order>): Promise<Order> {
+  const res = await api.patch<Order>(`${BASE_URL}/${id}`, updates);
+  return res.data;
 }
 
-function update(id: string, updates: Partial<Order>): Order | undefined {
-  const orders = getAll();
-  const idx = orders.findIndex((o) => o.id === id);
-  if (idx === -1) throw new Error("Order not found");
-
-  // ✅ Set readyAt only when entering 'Preparing' state with a time
-  if (
-    updates.status === OrderStatusEnum.Preparing &&
-    updates.preparingTimeInMin != null
-  ) {
-    const startedAt = new Date().toISOString();
-    updates.updatedAt = startedAt;
-    updates.readyAt = new Date(
-      Date.now() + updates.preparingTimeInMin * 60000
-    ).toISOString();
-  }
-
-  orders[idx] = { ...orders[idx], ...updates };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
-  return orders[idx];
-}
-
-function remove(id: string): boolean {
-  const orders = getAll();
-  const filtered = orders.filter((o) => o.id !== id);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
-  return orders.length !== filtered.length;
+// DELETE - remove order
+async function remove(id: string): Promise<void> {
+  await api.delete(`${BASE_URL}/${id}`);
 }
 
 export const orderService = {
   getAll,
+  getAllByStudent,
   getById,
   create,
   update,
   delete: remove,
-  getAllStudentOrders,
 };

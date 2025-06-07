@@ -1,70 +1,30 @@
-import { USER_ROLE } from "../enums/UserRole.enum";
+import api from "../../../lib/axios";
 import type { User } from "../types/User";
-import { authManager } from "./authManager";
 
-const STORAGE_KEY = "users";
-
-function getAll(): User[] {
-  const data = localStorage.getItem(STORAGE_KEY);
-  return data ? JSON.parse(data) : [];
-}
-
-function getById(id: string): User | undefined {
-  return getAll().find((u) => u.id === id);
-}
-
-function create(user: User): User {
-  const users = getAll();
-  if (users.some((u) => u.id === user.id))
-    throw new Error("User already exists");
-  
-  users.push(user);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-  return user;
-}
-
-function update(id: string, updates: Partial<User>): User | undefined {
-  const users = getAll();
-  const idx = users.findIndex((u) => u.id === id);
-  if (idx === -1) throw new Error("User not found");
-  users[idx] = { ...users[idx], ...updates };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-  return users[idx];
-}
-
-function remove(id: string): boolean {
-  const users = getAll();
-  const filtered = users.filter((u) => u.id !== id);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
-  return users.length !== filtered.length;
-}
-
-function ensureAdminUser() {
-  const users = getAll();
-  const adminExists = users.some((u) => u.role === USER_ROLE.Admin);
-  if (!adminExists) {
-    const adminUser: User = {
-      id: crypto.randomUUID(),
-      name: "Admin",
-      email: "admin@cafeteria.com",
-      password: authManager.hashPassword("admin123"),
-      role: USER_ROLE.Admin,
-      createdAt: new Date().toISOString(),
-    };
-    users.push(adminUser);
-    saveUsers(users);
-  }
-}
-
-function saveUsers(users: User[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(users));
-}
+const BASE_URL = "/auth";
 
 export const authService = {
-  getAll,
-  getById,
-  create,
-  update,
-  delete: remove,
-  ensureAdminUser,
+  async login(email: string, password: string): Promise<User> {
+    const res = await api.post<User>(`${BASE_URL}/login`, { email, password });
+    return res.data;
+  },
+
+  async register(user: Partial<User>): Promise<User> {
+    const res = await api.post<User>(`${BASE_URL}/register`, user);
+    return res.data;
+  },
+
+  async getAll(): Promise<User[]> {
+    const res = await api.get<User[]>(BASE_URL);
+    return res.data;
+  },
+
+  async getById(id: string): Promise<User> {
+    const res = await api.get<User>(`${BASE_URL}/${id}`);
+    return res.data;
+  },
+
+  async delete(id: string): Promise<void> {
+    await api.delete(`${BASE_URL}/${id}`);
+  },
 };

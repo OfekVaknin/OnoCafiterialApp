@@ -7,7 +7,7 @@ const BaseButton: React.FC<ButtonProps> = ({ children, ...props }) => {
       variant="contained"
       color="primary"
       sx={{
-        borderRadius: 2,
+        borderRadius: 0,
         fontWeight: 600,
         textTransform: "none",
         px: 3,

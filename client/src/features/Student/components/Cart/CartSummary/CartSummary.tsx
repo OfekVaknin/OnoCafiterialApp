@@ -17,7 +17,7 @@ const CartSummary: React.FC = () => {
 
   const total = items.reduce((sum, i) => sum + i.quantity * i.price, 0);
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!user) {
       alert("עליך להתחבר לפני ביצוע הזמנה.");
       return;
@@ -40,16 +40,14 @@ const CartSummary: React.FC = () => {
 
     const newOrder: Order = {
       id: orderId,
-      userId: user.id,
+      userId: user._id,
       items: orderItems,
       status: OrderStatusEnum.Pending,
       total,
       createdAt: new Date().toISOString(),
     };
-
     try {
-      orderService.create(newOrder);
-      //   orderItems.forEach(orderItemService.create);
+      await orderService.create(newOrder);
       clearCart();
       alert("הזמנה בוצעה בהצלחה!");
     } catch (err) {

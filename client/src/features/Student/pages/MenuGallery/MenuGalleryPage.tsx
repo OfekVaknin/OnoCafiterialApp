@@ -1,18 +1,38 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import type { MenuItem } from "../../../../shared/types/MenuItem";
 import TypographyText from "../../../../shared/TypographyText";
 import MenuGalleryGrid from "../../components/MenuGallery/MenuGalleryGrid/MenuGalleryGrid";
 import { menuItemService } from "../../../Admin/services/menuItem.service";
 
-
 const MenuGalleryPage: React.FC = () => {
-  const items: MenuItem[] = menuItemService.getAll().filter((i) => i.available);
+  const [items, setItems] = useState<MenuItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadItems = async () => {
+      try {
+        const all = await menuItemService.getAll();
+        const availableOnly = all.filter((i) => i.available);
+        setItems(availableOnly);
+      } catch (err) {
+        console.error("Failed to fetch menu items", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadItems();
+  }, []);
 
   return (
     <Box sx={{ p: 3 }}>
       <TypographyText variant="title">תפריט המנות</TypographyText>
-      <MenuGalleryGrid items={items} />
+      {loading ? (
+        <TypographyText>טוען מנות...</TypographyText>
+      ) : (
+        <MenuGalleryGrid items={items} />
+      )}
     </Box>
   );
 };

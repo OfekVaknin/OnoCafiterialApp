@@ -6,7 +6,6 @@ import { authManager } from "../../services/authManager";
 import { authService } from "../../services/auth.service";
 import TypographyText from "../../../../shared/TypographyText";
 import BaseInput from "../../../../shared/BaseInput";
-import BaseSelect from "../../../../shared/BaseSelect";
 import BaseButton from "../../../../shared/BaseButton";
 
 const RegisterPage: React.FC = () => {
@@ -34,11 +33,11 @@ const RegisterPage: React.FC = () => {
         id: crypto.randomUUID(),
         name: form.name,
         email: form.email,
-        password: authManager.hashPassword(form.password),
+        password: form.password,
         role: form.role,
         createdAt: new Date().toISOString(),
       };
-      authService.create(newUser);
+      authService.register(newUser);
       navigate("/login");
     } catch (err: any) {
       setError(err.message);

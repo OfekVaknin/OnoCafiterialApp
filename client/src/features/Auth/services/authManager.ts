@@ -1,29 +1,20 @@
-import { authService } from "./auth.service";
 import type { User } from "../types/User";
-import CryptoJS from "crypto-js";
+import { authService } from "./auth.service";
 
 const AUTH_KEY = "authUser";
 
-function hashPassword(password: string): string {
-  return CryptoJS.SHA256(password.trim()).toString();
-}
-
-function login(email: string, password: string): User {
-  const users = authService.getAll();
-  const hashed = hashPassword(password);
-  console.log("🚀 ~ login ~ users:", users)
-  console.log("🚀 ~ login ~ hashed:", hashed)
-  console.log("🚀 ~ login ~ password:", password)
-  console.log("🚀 ~ login ~ email:", email)
-  const user = users.find(
-    (u: User) => u.email === email && u.password === hashed
-  );
-  if (!user) throw new Error("Invalid email or password");
+function saveUser(user: User) {
   localStorage.setItem(AUTH_KEY, JSON.stringify(user));
-  return user;
 }
 
-function logout() {
+function login(email: string, password: string): Promise<User> {
+  return authService.login(email, password).then((user) => {
+    saveUser(user);
+    return user;
+  });
+}
+
+function logout(): void {
   localStorage.removeItem(AUTH_KEY);
 }
 
@@ -41,5 +32,4 @@ export const authManager = {
   logout,
   getCurrentUser,
   isAuthenticated,
-  hashPassword,
 };

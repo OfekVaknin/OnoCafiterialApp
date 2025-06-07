@@ -23,36 +23,44 @@ const DashboardWeeklyRevenueChart: React.FC = () => {
   const [data, setData] = useState<ChartData[]>([]);
 
   useEffect(() => {
-    const orders = orderService.getAll();
-    const today = new Date();
-    const pastWeek: Record<string, number> = {};
+    const fetchData = async () => {
+      try {
+        const orders: Order[] = await orderService.getAll();
+        const today = new Date();
+        const pastWeek: Record<string, number> = {};
 
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(today.getDate() - i);
-      const key = d.toISOString().split("T")[0];
-      pastWeek[key] = 0;
-    }
+        for (let i = 6; i >= 0; i--) {
+          const d = new Date(today);
+          d.setDate(today.getDate() - i);
+          const key = d.toISOString().split("T")[0];
+          pastWeek[key] = 0;
+        }
 
-    orders.forEach((order: Order) => {
-      const date = order.createdAt.split("T")[0];
-      if (pastWeek.hasOwnProperty(date)) {
-        pastWeek[date] += order.total;
+        orders.forEach((order) => {
+          const date = order.createdAt.split("T")[0];
+          if (pastWeek.hasOwnProperty(date)) {
+            pastWeek[date] += order.total;
+          }
+        });
+
+        const chartData: ChartData[] = Object.entries(pastWeek).map(
+          ([date, revenue]) => ({
+            date: new Date(date).toLocaleDateString("he-IL", {
+              weekday: "short",
+              day: "2-digit",
+              month: "2-digit",
+            }),
+            revenue: Number(revenue.toFixed(2)),
+          })
+        );
+
+        setData(chartData);
+      } catch (error) {
+        console.error("Failed to fetch weekly revenue data:", error);
       }
-    });
+    };
 
-    const chartData: ChartData[] = Object.entries(pastWeek).map(
-      ([date, revenue]) => ({
-        date: new Date(date).toLocaleDateString("he-IL", {
-          weekday: "short",
-          day: "2-digit",
-          month: "2-digit",
-        }),
-        revenue: Number(revenue.toFixed(2)),
-      })
-    );
-
-    setData(chartData);
+    fetchData();
   }, []);
 
   return (

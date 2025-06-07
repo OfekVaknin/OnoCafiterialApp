@@ -13,8 +13,9 @@ const ManageItemsPage: React.FC = () => {
   const navigate = useNavigate();
   const { enqueueSnackbar } = useSnackbar();
 
-  const loadItems = () => {
-    setItems(menuItemService.getAll());
+  const loadItems = async () => {
+    const itemsData = await menuItemService.getAll();
+    setItems(itemsData);
   };
 
   useEffect(() => {

@@ -35,23 +35,35 @@ const AddOrUpdateItemPage: React.FC = () => {
   const [preparingTime, setPreparingTime] = useState(10);
 
   useEffect(() => {
-    setCategories(menuCategoryService.getAll());
+    const fetchData = async () => {
+      await setCategoriesdata();
 
-    if (isEdit && id) {
-      const item = menuItemService.getById(id);
-      if (item) {
-        setName(item.name);
-        setDescription(item.description || "");
-        setPrice(item.price.toString());
-        setImageUrl(item.imageUrl || "");
-        setCategoryId(item.categoryId);
-        setAvailable(item.available);
-        setPreparingTime(item.preparingTimeInMin || 10);
+      if (isEdit && id) {
+        try {
+          const item = await menuItemService.getById(id);
+          setName(item.name);
+          setDescription(item.description || "");
+          setPrice(item.price.toString());
+          setImageUrl(item.imageUrl || "");
+          setCategoryId(item.categoryId);
+          setAvailable(item.available);
+          setPreparingTime(item.preparingTimeInMin || 10);
+        } catch {
+          enqueueSnackbar("שגיאה בטעינת פרטי המנה", { variant: "error" });
+          navigate("/admin/items");
+        }
       }
-    }
+    };
+
+    fetchData();
   }, [id]);
 
-  const handleSubmit = () => {
+  const setCategoriesdata = async () => {
+    const categoriesData = await menuCategoryService.getAll();
+    setCategories(categoriesData);
+  };
+
+  const handleSubmit = async () => {
     if (!name.trim()) {
       enqueueSnackbar("שם מנה הוא שדה חובה", { variant: "error" });
       return;
@@ -80,10 +92,10 @@ const AddOrUpdateItemPage: React.FC = () => {
 
     try {
       if (isEdit) {
-        menuItemService.update(newItem.id, newItem);
+        await menuItemService.update(newItem.id, newItem);
         enqueueSnackbar("המנה עודכנה בהצלחה", { variant: "success" });
       } else {
-        menuItemService.create(newItem);
+        await menuItemService.create(newItem);
         enqueueSnackbar("המנה נוספה בהצלחה", { variant: "success" });
       }
 

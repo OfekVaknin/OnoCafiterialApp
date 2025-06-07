@@ -56,23 +56,24 @@ const OrderCard: React.FC<Props> = ({ order, refreshOrders }) => {
     return () => clearInterval(interval);
   }, [order.status, order.readyAt, user?.role]);
 
-  const handleUpdate = () => {
-    try {
-      const updated = orderService.update(order.id, {
-        status,
-        updatedAt: new Date().toISOString(),
-      });
-      if (updated) {
-        refreshOrders();
-        enqueueSnackbar("הסטטוס עודכן בהצלחה", { variant: "success" });
-      } else {
-        enqueueSnackbar("לא נמצאה הזמנה לעדכון", { variant: "warning" });
-      }
-    } catch (err) {
-      console.error(err);
-      enqueueSnackbar("אירעה שגיאה בעת עדכון ההזמנה", { variant: "error" });
+ const handleUpdate = async () => {
+  try {
+    const updated = await orderService.update(order._id, {
+      status,
+      updatedAt: new Date().toISOString(),
+    });
+
+    if (updated) {
+      refreshOrders();
+      enqueueSnackbar("הסטטוס עודכן בהצלחה", { variant: "success" });
+    } else {
+      enqueueSnackbar("לא נמצאה הזמנה לעדכון", { variant: "warning" });
     }
-  };
+  } catch (err) {
+    console.error(err);
+    enqueueSnackbar("אירעה שגיאה בעת עדכון ההזמנה", { variant: "error" });
+  }
+};
 
   const handleStatusChange = (newStatus: OrderStatusEnum) => {
     setStatus(newStatus);

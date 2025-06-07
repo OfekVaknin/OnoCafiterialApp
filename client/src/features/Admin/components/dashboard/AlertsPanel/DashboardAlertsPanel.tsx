@@ -10,33 +10,45 @@ const DashboardAlertsPanel: React.FC = () => {
   const [alerts, setAlerts] = useState<string[]>([]);
 
   useEffect(() => {
-    const orders = orderService.getAll();
-    const now = Date.now();
-    const activeAlerts: string[] = [];
+    const fetchAlerts = async () => {
+      try {
+        const orders = await orderService.getAll(); // ✅ fetch from server
+        const now = Date.now();
+        const activeAlerts: string[] = [];
 
-    // Orders pending over 10 minutes
-    orders
-      .filter((o) => o.status === OrderStatusEnum.Pending)
-      .forEach((o) => {
-        const createdTime = new Date(o.createdAt).getTime();
-        const diffMinutes = (now - createdTime) / 1000 / 60;
-        if (diffMinutes > 10) {
-          activeAlerts.push(`הזמנה #${o.documentNumber} ממתינה מעל 10 דקות`);
-        }
-      });
+        // Orders pending over 10 minutes
+        orders
+          .filter((o) => o.status === OrderStatusEnum.Pending)
+          .forEach((o) => {
+            const createdTime = new Date(o.createdAt).getTime();
+            const diffMinutes = (now - createdTime) / 1000 / 60;
+            if (diffMinutes > 10) {
+              activeAlerts.push(
+                `הזמנה #${o.documentNumber} ממתינה מעל 10 דקות`
+              );
+            }
+          });
 
-    // Recently cancelled (last 10 minutes)
-    orders
-      .filter((o) => o.status === OrderStatusEnum.Cancelled)
-      .forEach((o) => {
-        const updated = new Date(o.updatedAt || o.createdAt).getTime();
-        const diff = (now - updated) / 1000 / 60;
-        if (diff <= 10) {
-          activeAlerts.push(`הזמנה #${o.documentNumber} בוטלה לפני כמה רגעים`);
-        }
-      });
+        // Recently cancelled (last 10 minutes)
+        orders
+          .filter((o) => o.status === OrderStatusEnum.Cancelled)
+          .forEach((o) => {
+            const updated = new Date(o.updatedAt || o.createdAt).getTime();
+            const diff = (now - updated) / 1000 / 60;
+            if (diff <= 10) {
+              activeAlerts.push(
+                `הזמנה #${o.documentNumber} בוטלה לפני כמה רגעים`
+              );
+            }
+          });
 
-    setAlerts(activeAlerts);
+        setAlerts(activeAlerts);
+      } catch (err) {
+        console.error("Failed to load alerts", err);
+      }
+    };
+
+    fetchAlerts();
   }, []);
 
   return (

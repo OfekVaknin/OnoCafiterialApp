@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Avatar,
   Table,
@@ -10,58 +10,58 @@ import {
 import type { OrderItem } from "../../../../Order/types/OrderItem";
 import TypographyText from "../../../../../shared/TypographyText";
 import { menuItemService } from "../../../services/menuItem.service";
+import type { MenuItem } from "../../../../../shared/types/MenuItem";
 
 interface Props {
   items: OrderItem[];
 }
 
 const OrderItemTable: React.FC<Props> = ({ items }) => {
+  const [menuItems, setMenuItems] = useState<Record<string, MenuItem>>({});
+
+  useEffect(() => {
+    const loadAllMenuItems = async () => {
+      try {
+        const uniqueIds = Array.from(new Set(items.map((item) => item.menuItemId)));
+        const results = await Promise.all(uniqueIds.map((id) => menuItemService.getById(id)));
+        const map = results.reduce((acc, item) => {
+          acc[item.id] = item;
+          return acc;
+        }, {} as Record<string, MenuItem>);
+        setMenuItems(map);
+      } catch (err) {
+        console.error("Failed to load menu items:", err);
+      }
+    };
+
+    loadAllMenuItems();
+  }, [items]);
+
   return (
     <Table size="small">
       <TableHead>
         <TableRow>
-          <TableCell>
-            <TypographyText>תמונת פריט</TypographyText>
-          </TableCell>
-          <TableCell>
-            <TypographyText>כמות</TypographyText>
-          </TableCell>
-          <TableCell>
-            <TypographyText>מחיר</TypographyText>
-          </TableCell>
-          <TableCell>
-            <TypographyText>סה"כ</TypographyText>
-          </TableCell>
+          <TableCell><TypographyText>תמונת פריט</TypographyText></TableCell>
+          <TableCell><TypographyText>כמות</TypographyText></TableCell>
+          <TableCell><TypographyText>מחיר</TypographyText></TableCell>
+          <TableCell><TypographyText>סה"כ</TypographyText></TableCell>
         </TableRow>
       </TableHead>
       <TableBody>
         {items.map((item) => {
-          const name = menuItemService.getMenuItemName(item.menuItemId);
-          const imageUrl =
-            menuItemService.getMenuItemImageUrl(item.menuItemId) ||
-            "/no-image.png";
+          const menuItem = menuItems[item.menuItemId];
+          const name = menuItem?.name || "לא זמין";
+          const imageUrl = menuItem?.imageUrl || "/no-image.png";
 
           return (
-            <TableRow key={item.id}>
+            <TableRow key={item._id}>
               <TableCell sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-                <Avatar
-                  src={imageUrl}
-                  alt={name}
-                  sx={{ width: 40, height: 40, mr: 1, display: "flex" }}
-                />
-                <TypographyText sx={{ display: "inline-block", ml: 1 }}>
-                  {name}
-                </TypographyText>
+                <Avatar src={imageUrl} alt={name} sx={{ width: 40, height: 40, mr: 1 }} />
+                <TypographyText>{name}</TypographyText>
               </TableCell>
-              <TableCell>
-                <TypographyText>{item.quantity}</TypographyText>
-              </TableCell>
-              <TableCell>
-                <TypographyText>₪ {item.price}</TypographyText>
-              </TableCell>
-              <TableCell>
-                <TypographyText>₪ {item.price * item.quantity}</TypographyText>
-              </TableCell>
+              <TableCell><TypographyText>{item.quantity}</TypographyText></TableCell>
+              <TableCell><TypographyText>₪ {item.price}</TypographyText></TableCell>
+              <TableCell><TypographyText>₪ {item.price * item.quantity}</TypographyText></TableCell>
             </TableRow>
           );
         })}

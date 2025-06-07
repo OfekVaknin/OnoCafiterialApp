@@ -14,41 +14,36 @@ const AddOrUpdateCategoryPage: React.FC = () => {
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-
   const { enqueueSnackbar } = useSnackbar();
 
   useEffect(() => {
-    if (isEdit && id) {
-      const existing = menuCategoryService.getById(id);
-      if (existing) {
-        setName(existing.name);
-        setDescription(existing.description || "");
+    const fetchCategory = async () => {
+      try {
+        if (isEdit && id) {
+          const existing = await menuCategoryService.getById(id);
+          setName(existing.name);
+          setDescription(existing.description || "");
+        }
+      } catch (error) {
+        enqueueSnackbar("שגיאה בטעינת הקטגוריה", { variant: "error" });
       }
-    }
-  }, [id]);
+    };
 
-  const handleSubmit = () => {
+    fetchCategory();
+  }, [id, isEdit, enqueueSnackbar]);
+
+  const handleSubmit = async () => {
     if (!name.trim()) {
       enqueueSnackbar("שם קטגוריה הוא שדה חובה", { variant: "error" });
       return;
     }
 
-    const newCategory: MenuCategory = {
-      id: id || crypto.randomUUID(),
-      name,
-      description,
-      createdAt: isEdit
-        ? menuCategoryService.getById(id!)?.createdAt ||
-          new Date().toISOString()
-        : new Date().toISOString(),
-    };
-
     try {
-      if (isEdit) {
-        menuCategoryService.update(newCategory.id, newCategory);
+      if (isEdit && id) {
+        await menuCategoryService.update(id, { name, description });
         enqueueSnackbar("הקטגוריה עודכנה בהצלחה", { variant: "success" });
       } else {
-        menuCategoryService.create(newCategory);
+        await menuCategoryService.create({ name, description });
         enqueueSnackbar("הקטגוריה נוספה בהצלחה", { variant: "success" });
       }
 

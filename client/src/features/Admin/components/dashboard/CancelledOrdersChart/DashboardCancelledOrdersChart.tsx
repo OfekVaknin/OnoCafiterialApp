@@ -24,36 +24,44 @@ const DashboardCancelledOrdersChart: React.FC = () => {
   const [data, setData] = useState<ChartData[]>([]);
 
   useEffect(() => {
-    const orders = orderService.getAll();
-    const today = new Date();
-    const pastWeek: Record<string, number> = {};
+    const fetchData = async () => {
+      try {
+        const orders: Order[] = await orderService.getAll();
+        const today = new Date();
+        const pastWeek: Record<string, number> = {};
 
-    for (let i = 6; i >= 0; i--) {
-      const d = new Date(today);
-      d.setDate(today.getDate() - i);
-      const key = d.toISOString().split("T")[0];
-      pastWeek[key] = 0;
-    }
-
-    orders
-      .filter((o) => o.status === OrderStatusEnum.Cancelled)
-      .forEach((order) => {
-        const date = order.createdAt.split("T")[0];
-        if (pastWeek.hasOwnProperty(date)) {
-          pastWeek[date]++;
+        for (let i = 6; i >= 0; i--) {
+          const d = new Date(today);
+          d.setDate(today.getDate() - i);
+          const key = d.toISOString().split("T")[0];
+          pastWeek[key] = 0;
         }
-      });
 
-    const chartData = Object.entries(pastWeek).map(([date, count]) => ({
-      date: new Date(date).toLocaleDateString("he-IL", {
-        weekday: "short",
-        day: "2-digit",
-        month: "2-digit",
-      }),
-      count,
-    }));
+        orders
+          .filter((o) => o.status === OrderStatusEnum.Cancelled)
+          .forEach((order) => {
+            const date = order.createdAt.split("T")[0];
+            if (pastWeek.hasOwnProperty(date)) {
+              pastWeek[date]++;
+            }
+          });
 
-    setData(chartData);
+        const chartData = Object.entries(pastWeek).map(([date, count]) => ({
+          date: new Date(date).toLocaleDateString("he-IL", {
+            weekday: "short",
+            day: "2-digit",
+            month: "2-digit",
+          }),
+          count,
+        }));
+
+        setData(chartData);
+      } catch (err) {
+        console.error("Failed to load cancelled orders chart:", err);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (

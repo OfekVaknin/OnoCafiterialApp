@@ -10,16 +10,17 @@ const ManageCategoriesPage: React.FC = () => {
   const [categories, setCategories] = useState<MenuCategory[]>([]);
   const navigate = useNavigate();
 
-  const loadCategories = () => {
-    setCategories(menuCategoryService.getAll());
+  const loadCategories = async () => {
+    const categoriesData = await menuCategoryService.getAll();
+    setCategories(categoriesData);
   };
 
   useEffect(() => {
     loadCategories();
   }, []);
 
-  const handleDelete = (id: string) => {
-    menuCategoryService.delete(id);
+  const handleDelete = async (id: string) => {
+    await menuCategoryService.delete(id);
     loadCategories();
   };
 

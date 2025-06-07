@@ -25,7 +25,6 @@ const OrderStatusSelect: React.FC<Props> = ({ order, onChange }) => {
   const handleChange = (e: SelectChangeEvent) => {
     const newStatus = e.target.value as OrderStatusEnum;
     setStatus(newStatus);
-    // orderService.update(order.id, { status: newStatus });
     onChange(newStatus);
   };
 

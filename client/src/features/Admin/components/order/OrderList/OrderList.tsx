@@ -13,15 +13,20 @@ const OrderList: React.FC = () => {
   const user = useLoggedInUser();
 
   useEffect(() => {
-    refreshOrders();
+    if (user) {
+      refreshOrders();
+    }
   }, [user]);
 
-  const refreshOrders = () => {
+  const refreshOrders = async () => {
     if (!user) return;
 
     let allOrders: Order[] = [];
-    if (user.role === USER_ROLE.Admin) allOrders = orderService.getAll();
-    else allOrders = orderService.getAllStudentOrders(user.id);
+    if (user.role === USER_ROLE.Admin) {
+      allOrders = await orderService.getAll();
+    } else {
+      allOrders = await orderService.getAllByStudent(user._id);
+    }
 
     const today = new Date().toISOString().split("T")[0];
     const todayList: Order[] = [];
@@ -50,7 +55,7 @@ const OrderList: React.FC = () => {
         ) : (
           todayOrders.map((order) => (
             <OrderCard
-              key={order.id}
+              key={order._id}
               order={order}
               refreshOrders={refreshOrders}
             />
@@ -67,7 +72,7 @@ const OrderList: React.FC = () => {
         ) : (
           pastOrders.map((order) => (
             <OrderCard
-              key={order.id}
+              key={order._id}
               order={order}
               refreshOrders={refreshOrders}
             />

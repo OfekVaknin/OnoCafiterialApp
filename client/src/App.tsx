@@ -7,7 +7,7 @@ import { Box } from "@mui/material";
 
 const App: React.FC = () => {
   useEffect(() => {
-    authService.ensureAdminUser();
+    // authService.ensureAdminUser();
   }, []);
 
   return (

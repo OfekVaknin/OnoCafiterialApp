@@ -1,38 +1,41 @@
+import api from "../../../lib/axios";
 import type { MenuCategory } from "../../../shared/types/MenuCategory";
 
-const STORAGE_KEY = 'menuCategories';
+const BASE_URL = "/menu-categories";
 
-function getAll(): MenuCategory[] {
-  const data = localStorage.getItem(STORAGE_KEY);
-  return data ? JSON.parse(data) : [];
+async function getAll(): Promise<MenuCategory[]> {
+  const res = await api.get<MenuCategory[]>(BASE_URL);
+  return res.data;
 }
 
-function getById(id: string): MenuCategory | undefined {
-  return getAll().find(c => c.id === id);
+async function getById(id: string): Promise<MenuCategory> {
+  const res = await api.get<MenuCategory>(`${BASE_URL}/${id}`);
+  return res.data;
 }
 
-function create(category: MenuCategory): MenuCategory {
-  const categories = getAll();
-  if (categories.some(c => c.id === category.id)) throw new Error('Category already exists');
-  categories.push(category);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(categories));
-  return category;
+async function create(
+  category: Omit<MenuCategory, "id" | "createdAt">
+): Promise<MenuCategory> {
+  const res = await api.post<MenuCategory>(BASE_URL, category);
+  return res.data;
 }
 
-function update(id: string, updates: Partial<MenuCategory>): MenuCategory | undefined {
-  const categories = getAll();
-  const idx = categories.findIndex(c => c.id === id);
-  if (idx === -1) throw new Error('Category not found');
-  categories[idx] = { ...categories[idx], ...updates };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(categories));
-  return categories[idx];
+async function update(
+  id: string,
+  updates: Partial<Omit<MenuCategory, "id" | "createdAt">>
+): Promise<MenuCategory> {
+  const res = await api.patch<MenuCategory>(`${BASE_URL}/${id}`, updates);
+  return res.data;
 }
 
-function remove(id: string): boolean {
-  const categories = getAll();
-  const filtered = categories.filter(c => c.id !== id);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filtered));
-  return categories.length !== filtered.length;
+async function remove(id: string): Promise<void> {
+  await api.delete(`${BASE_URL}/${id}`);
 }
 
-export const menuCategoryService = { getAll, getById, create, update, delete: remove };
+export const menuCategoryService = {
+  getAll,
+  getById,
+  create,
+  update,
+  delete: remove,
+};

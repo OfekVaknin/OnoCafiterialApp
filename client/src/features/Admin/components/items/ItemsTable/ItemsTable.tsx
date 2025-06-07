@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -15,6 +15,8 @@ import type { MenuItem } from "../../../../../shared/types/MenuItem";
 import { menuItemService } from "../../../services/menuItem.service";
 import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
+import { menuCategoryService } from "../../../services/menuCategory.service";
+import type { MenuCategory } from "../../../../../shared/types/MenuCategory";
 
 interface Props {
   items: MenuItem[];
@@ -23,16 +25,25 @@ interface Props {
 
 const ItemsTable: React.FC<Props> = ({ items, loadItems }) => {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState<MenuCategory[]>([]);
 
-  const handleDelete = (id: string) => {
-    try {
-      const success = menuItemService.delete(id);
-      if (success) {
-        enqueueSnackbar("המנה נמחקה בהצלחה", { variant: "success" });
-        loadItems();
-      } else {
-        enqueueSnackbar("המחיקה נכשלה", { variant: "error" });
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const res = await menuCategoryService.getAll();
+        setCategories(res);
+      } catch {
+        enqueueSnackbar("שגיאה בטעינת הקטגוריות", { variant: "error" });
       }
+    };
+    fetchCategories();
+  }, []);
+
+  const handleDelete = async (id: string) => {
+    try {
+      await menuItemService.delete(id);
+      enqueueSnackbar("המנה נמחקה בהצלחה", { variant: "success" });
+      loadItems();
     } catch {
       enqueueSnackbar("שגיאה במחיקת מנה", { variant: "error" });
     }
@@ -40,6 +51,10 @@ const ItemsTable: React.FC<Props> = ({ items, loadItems }) => {
 
   const handleEdit = (id: string) => {
     navigate(`/admin/items/edit/${id}`);
+  };
+
+  const getCategoryName = (categoryId: string): string => {
+    return categories.find((c) => c.id === categoryId)?.name || "לא ידוע";
   };
 
   return (
@@ -61,7 +76,7 @@ const ItemsTable: React.FC<Props> = ({ items, loadItems }) => {
               <TableCell>{item.name}</TableCell>
               <TableCell>{item.description || "-"}</TableCell>
               <TableCell>{item.price.toFixed(2)} ₪</TableCell>
-              <TableCell>{item.categoryId}</TableCell>
+              <TableCell>{getCategoryName(item.categoryId)}</TableCell>
               <TableCell>{item.available ? "כן" : "לא"}</TableCell>
               <TableCell align="right">
                 <IconButton onClick={() => handleEdit(item.id)}>

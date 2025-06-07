@@ -12,9 +12,9 @@ const LoginPage: React.FC = () => {
   const { login } = useAuthStore();
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     try {
-      login(email, password);
+      await login(email, password);
       navigate("/"); // go to home or dashboard
     } catch (err: any) {
       setError(err.message);

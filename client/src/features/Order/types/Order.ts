@@ -2,6 +2,7 @@ import type { OrderStatusEnum } from "../enums/OrderStatusEnum";
 import type { OrderItem } from "./OrderItem";
 
 export interface Order {
+  _id?: string;
   id: string;
   userId: string;
   items: OrderItem[];

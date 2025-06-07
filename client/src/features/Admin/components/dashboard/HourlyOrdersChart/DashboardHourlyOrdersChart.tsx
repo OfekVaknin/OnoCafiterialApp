@@ -23,30 +23,37 @@ const DashboardHourlyOrdersChart: React.FC = () => {
   const [data, setData] = useState<ChartData[]>([]);
 
   useEffect(() => {
-    const orders = orderService.getAll();
-    const today = new Date().toISOString().split("T")[0];
+    const fetchData = async () => {
+      try {
+        const orders: Order[] = await orderService.getAll();
+        const today = new Date().toISOString().split("T")[0];
 
-    const hourlyMap: Record<string, number> = {};
+        const hourlyMap: Record<string, number> = {};
+        for (let h = 0; h < 24; h++) {
+          const label = `${h.toString().padStart(2, "0")}:00`;
+          hourlyMap[label] = 0;
+        }
 
-    for (let h = 0; h < 24; h++) {
-      const label = `${h.toString().padStart(2, "0")}:00`;
-      hourlyMap[label] = 0;
-    }
+        orders
+          .filter((o) => o.createdAt.startsWith(today))
+          .forEach((order) => {
+            const hour = new Date(order.createdAt).getHours();
+            const label = `${hour.toString().padStart(2, "0")}:00`;
+            hourlyMap[label]++;
+          });
 
-    orders
-      .filter((o) => o.createdAt.startsWith(today))
-      .forEach((order) => {
-        const hour = new Date(order.createdAt).getHours();
-        const label = `${hour.toString().padStart(2, "0")}:00`;
-        hourlyMap[label]++;
-      });
+        const chartData = Object.entries(hourlyMap).map(([hour, count]) => ({
+          hour,
+          count,
+        }));
 
-    const chartData = Object.entries(hourlyMap).map(([hour, count]) => ({
-      hour,
-      count,
-    }));
+        setData(chartData);
+      } catch (err) {
+        console.error("Failed to load hourly orders chart:", err);
+      }
+    };
 
-    setData(chartData);
+    fetchData();
   }, []);
 
   return (
