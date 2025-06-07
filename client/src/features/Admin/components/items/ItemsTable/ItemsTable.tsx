@@ -8,6 +8,7 @@ import {
   TableRow,
   IconButton,
   Paper,
+  Avatar,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -17,6 +18,7 @@ import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { menuCategoryService } from "../../../services/menuCategory.service";
 import type { MenuCategory } from "../../../../../shared/types/MenuCategory";
+import TypographyText from "../../../../../shared/TypographyText";
 
 interface Props {
   items: MenuItem[];
@@ -62,7 +64,9 @@ const ItemsTable: React.FC<Props> = ({ items, loadItems }) => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>שם</TableCell>
+            <TableCell>
+              <TypographyText>פריט</TypographyText>
+            </TableCell>
             <TableCell>תיאור</TableCell>
             <TableCell>מחיר</TableCell>
             <TableCell>קטגוריה</TableCell>
@@ -73,7 +77,14 @@ const ItemsTable: React.FC<Props> = ({ items, loadItems }) => {
         <TableBody>
           {items.map((item) => (
             <TableRow key={item.id}>
-              <TableCell>{item.name}</TableCell>
+              <TableCell sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+                <Avatar
+                  src={item.imageUrl || "/no-image.png"}
+                  alt={item.name}
+                  sx={{ width: 40, height: 40, mr: 1 }}
+                />
+                <TypographyText>{item.name}</TypographyText>
+              </TableCell>
               <TableCell>{item.description || "-"}</TableCell>
               <TableCell>{item.price.toFixed(2)} ₪</TableCell>
               <TableCell>{getCategoryName(item.categoryId)}</TableCell>

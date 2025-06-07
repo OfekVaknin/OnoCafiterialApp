@@ -41,7 +41,7 @@ const OrderItemTable: React.FC<Props> = ({ items }) => {
     <Table size="small">
       <TableHead>
         <TableRow>
-          <TableCell><TypographyText>תמונת פריט</TypographyText></TableCell>
+          <TableCell><TypographyText>פריט</TypographyText></TableCell>
           <TableCell><TypographyText>כמות</TypographyText></TableCell>
           <TableCell><TypographyText>מחיר</TypographyText></TableCell>
           <TableCell><TypographyText>סה"כ</TypographyText></TableCell>
