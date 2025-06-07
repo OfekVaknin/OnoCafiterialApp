@@ -134,4 +134,4 @@ MIT — feel free to use, modify, and share.
 
 ## 🙌 Credits
 
-Built by Ofek Vaknin & team as a hands-on academic project with full-stack architecture.
+Built by Ofek Vaknin as a hands-on academic project with full-stack architecture.
