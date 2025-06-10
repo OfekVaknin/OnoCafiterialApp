@@ -1,9 +1,9 @@
 import React from "react";
 import { Paper, Box } from "@mui/material";
-import TypographyText from "../../../../../shared/TypographyText";
-import BaseButton from "../../../../../shared/BaseButton";
 import { useNavigate } from "react-router-dom";
 import { dashboardCardStyle } from "../../../pages/Dashboard/Dashboard";
+import TypographyText from "../../../../../shared/components/TypographyText";
+import BaseButton from "../../../../../shared/components/BaseButton";
 
 const DashboardQuickActionsPanel: React.FC = () => {
   const navigate = useNavigate();

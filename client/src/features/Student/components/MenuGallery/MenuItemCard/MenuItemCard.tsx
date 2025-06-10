@@ -1,9 +1,9 @@
 import React from "react";
 import { Card, CardContent, CardMedia, Box } from "@mui/material";
 import type { MenuItem } from "../../../../../shared/types/MenuItem";
-import TypographyText from "../../../../../shared/TypographyText";
-import BaseButton from "../../../../../shared/BaseButton";
 import { useCartStore } from "../../../store/useCartStore";
+import TypographyText from "../../../../../shared/components/TypographyText";
+import BaseButton from "../../../../../shared/components/BaseButton";
 interface Props {
   item: MenuItem;
 }

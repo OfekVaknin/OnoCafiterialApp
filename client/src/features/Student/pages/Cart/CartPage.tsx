@@ -1,9 +1,9 @@
 import React from "react";
 import { Box } from "@mui/material";
-import TypographyText from "../../../../shared/TypographyText";
 import { useCartStore } from "../../store/useCartStore";
 import CartList from "../../components/Cart/CartList/CartList";
 import CartSummary from "../../components/Cart/CartSummary/CartSummary";
+import TypographyText from "../../../../shared/components/TypographyText";
 
 const CartPage: React.FC = () => {
   const { items } = useCartStore();

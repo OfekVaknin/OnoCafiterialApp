@@ -4,7 +4,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import type { CartItem } from "../../../types/CartItem";
 import { useCartStore } from "../../../store/useCartStore";
-import TypographyText from "../../../../../shared/TypographyText";
+import TypographyText from "../../../../../shared/components/TypographyText";
 
 interface Props {
   item: CartItem;

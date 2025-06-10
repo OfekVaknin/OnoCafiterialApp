@@ -5,8 +5,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { useSnackbar } from "notistack";
 import type { MenuItem } from "../../../../shared/types/MenuItem";
 import { menuItemService } from "../../services/menuItem.service";
-import BaseButton from "../../../../shared/BaseButton";
 import ItemsTable from "../../components/items/ItemsTable/ItemsTable";
+import BaseButton from "../../../../shared/components/BaseButton";
 
 const ManageItemsPage: React.FC = () => {
   const [items, setItems] = useState<MenuItem[]>([]);

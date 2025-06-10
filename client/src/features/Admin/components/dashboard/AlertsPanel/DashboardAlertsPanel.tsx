@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Paper, Box } from "@mui/material";
-import TypographyText from "../../../../../shared/TypographyText";
 import { orderService } from "../../../../Order/services/order.service";
 import { OrderStatusEnum } from "../../../../Order/enums/OrderStatusEnum";
 import type { Order } from "../../../../Order/types/Order";
 import { dashboardCardStyle } from "../../../pages/Dashboard/Dashboard";
+import TypographyText from "../../../../../shared/components/TypographyText";
 
 const DashboardAlertsPanel: React.FC = () => {
   const [alerts, setAlerts] = useState<string[]>([]);
@@ -12,37 +12,15 @@ const DashboardAlertsPanel: React.FC = () => {
   useEffect(() => {
     const fetchAlerts = async () => {
       try {
-        const orders = await orderService.getAll(); // ✅ fetch from server
+        const orders = await orderService.getAll();
         const now = Date.now();
-        const activeAlerts: string[] = [];
 
-        // Orders pending over 10 minutes
-        orders
-          .filter((o) => o.status === OrderStatusEnum.Pending)
-          .forEach((o) => {
-            const createdTime = new Date(o.createdAt).getTime();
-            const diffMinutes = (now - createdTime) / 1000 / 60;
-            if (diffMinutes > 10) {
-              activeAlerts.push(
-                `הזמנה #${o.documentNumber} ממתינה מעל 10 דקות`
-              );
-            }
-          });
+        const alerts: string[] = [];
 
-        // Recently cancelled (last 10 minutes)
-        orders
-          .filter((o) => o.status === OrderStatusEnum.Cancelled)
-          .forEach((o) => {
-            const updated = new Date(o.updatedAt || o.createdAt).getTime();
-            const diff = (now - updated) / 1000 / 60;
-            if (diff <= 10) {
-              activeAlerts.push(
-                `הזמנה #${o.documentNumber} בוטלה לפני כמה רגעים`
-              );
-            }
-          });
+        alerts.push(...getPendingOrderAlerts(orders, now));
+        alerts.push(...getRecentCancelledAlerts(orders, now));
 
-        setAlerts(activeAlerts);
+        setAlerts(alerts);
       } catch (err) {
         console.error("Failed to load alerts", err);
       }
@@ -50,6 +28,34 @@ const DashboardAlertsPanel: React.FC = () => {
 
     fetchAlerts();
   }, []);
+
+  // 🔹 Helper: detect pending orders over 10 min
+  const getPendingOrderAlerts = (orders: Order[], now: number): string[] => {
+    const pendingTooLong = orders.filter((o) => {
+      if (o.status !== OrderStatusEnum.Pending) return false;
+      const createdTime = new Date(o.createdAt).getTime();
+      const diffMinutes = (now - createdTime) / 1000 / 60;
+      return diffMinutes > 10;
+    });
+
+    return pendingTooLong.length > 0
+      ? [`יש ${pendingTooLong.length} הזמנות שממתינות יותר מ־10 דקות`]
+      : [];
+  };
+
+  // 🔹 Helper: detect recent cancellations
+  const getRecentCancelledAlerts = (orders: Order[], now: number): string[] => {
+    const recentCancelled = orders.filter((o) => {
+      if (o.status !== OrderStatusEnum.Cancelled) return false;
+      const updated = new Date(o.updatedAt || o.createdAt).getTime();
+      const diffMinutes = (now - updated) / 1000 / 60;
+      return diffMinutes <= 10;
+    });
+
+    return recentCancelled.length > 0
+      ? [`היו ${recentCancelled.length} ביטולים בעשר הדקות האחרונות`]
+      : [];
+  };
 
   return (
     <Paper sx={dashboardCardStyle}>

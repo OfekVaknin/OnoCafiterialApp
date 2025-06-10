@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TypographyText from "../../../../shared/TypographyText";
-import BaseInput from "../../../../shared/BaseInput";
-import BaseButton from "../../../../shared/BaseButton";
 import { useAuthStore } from "../../store/useAuthStore";
+import TypographyText from "../../../../shared/components/TypographyText";
+import BaseInput from "../../../../shared/components/BaseInput";
+import BaseButton from "../../../../shared/components/BaseButton";
 
 const LoginPage: React.FC = () => {
   const [email, setEmail] = useState("");

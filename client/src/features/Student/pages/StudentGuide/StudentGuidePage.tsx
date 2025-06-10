@@ -1,9 +1,9 @@
 import React from "react";
 import { Box, Paper } from "@mui/material";
-import TypographyText from "../../../../shared/TypographyText";
 import IntroSection from "../../components/StudentGuide/IntroSection";
 import FeaturesSection from "../../components/StudentGuide/FeaturesSection";
 import FAQAccordion from "../../components/StudentGuide/FAQAccordion";
+import TypographyText from "../../../../shared/components/TypographyText";
 
 const StudentGuidePage: React.FC = () => {
   return (

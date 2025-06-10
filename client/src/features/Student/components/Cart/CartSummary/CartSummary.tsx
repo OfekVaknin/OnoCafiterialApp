@@ -1,7 +1,6 @@
 import React from "react";
 import { Box, Paper } from "@mui/material";
-import TypographyText from "../../../../../shared/TypographyText";
-import BaseButton from "../../../../../shared/BaseButton";
+
 import { useCartStore } from "../../../store/useCartStore";
 import { v4 as uuidv4 } from "uuid";
 import { useAuthStore } from "../../../../Auth/store/useAuthStore";
@@ -10,6 +9,9 @@ import type { Order } from "../../../../Order/types/Order";
 import type { OrderItem } from "../../../../Order/types/OrderItem";
 import { orderService } from "../../../../Order/services/order.service";
 import { orderItemService } from "../../../../Order/services/orderItem.service";
+import { alertService } from "../../../../../shared/utils/alert";
+import TypographyText from "../../../../../shared/components/TypographyText";
+import BaseButton from "../../../../../shared/components/BaseButton";
 
 const CartSummary: React.FC = () => {
   const { items, clearCart } = useCartStore();
@@ -49,10 +51,13 @@ const CartSummary: React.FC = () => {
     try {
       await orderService.create(newOrder);
       clearCart();
-      alert("הזמנה בוצעה בהצלחה!");
+      alertService.success(
+        "ניתן לעקוב אחר סטטוס ההזמנה מתוך אזור ההזמנות שלי",
+        "ההזמנה נקלטה בהצלחה!"
+      );
     } catch (err) {
       console.error(err);
-      alert("שגיאה בביצוע ההזמנה.");
+      alertService.error("שגיאה בביצוע ההזמנה.",'אנא נסה שנית מאוחר יותר או פנה לקפיטריה עצמה להזמנה :)');
     }
   };
 

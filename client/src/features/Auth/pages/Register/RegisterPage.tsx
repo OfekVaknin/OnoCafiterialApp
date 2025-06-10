@@ -4,9 +4,9 @@ import { USER_ROLE, type UserRoleEnum } from "../../enums/UserRole.enum";
 import type { User } from "../../types/User";
 import { authManager } from "../../services/authManager";
 import { authService } from "../../services/auth.service";
-import TypographyText from "../../../../shared/TypographyText";
-import BaseInput from "../../../../shared/BaseInput";
-import BaseButton from "../../../../shared/BaseButton";
+import TypographyText from "../../../../shared/components/TypographyText";
+import BaseInput from "../../../../shared/components/BaseInput";
+import BaseButton from "../../../../shared/components/BaseButton";
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();

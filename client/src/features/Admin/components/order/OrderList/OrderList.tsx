@@ -4,8 +4,8 @@ import { Box } from "@mui/material";
 import type { Order } from "../../../../Order/types/Order";
 import OrderCard from "../OrderCard/OrderCard";
 import { useLoggedInUser } from "../../../../Auth/hooks/useLoggedInUser";
-import TypographyText from "../../../../../shared/TypographyText";
 import { USER_ROLE } from "../../../../Auth/enums/UserRole.enum";
+import TypographyText from "../../../../../shared/components/TypographyText";
 
 const OrderList: React.FC = () => {
   const [todayOrders, setTodayOrders] = useState<Order[]>([]);
@@ -39,6 +39,16 @@ const OrderList: React.FC = () => {
         pastList.push(o);
       }
     });
+
+    // ✅ Sort by createdAt descending (newest first)
+    todayList.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+    pastList.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
 
     setTodayOrders(todayList);
     setPastOrders(pastList);

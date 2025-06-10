@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
-import BaseButton from "../../../../shared/BaseButton";
 import { useNavigate } from "react-router-dom";
 import type { MenuCategory } from "../../../../shared/types/MenuCategory";
 import { menuCategoryService } from "../../services/menuCategory.service";
 import CategoriesTable from "../../components/categories/CategoriesTable/CategoriesTable";
+import BaseButton from "../../../../shared/components/BaseButton";
 
 const ManageCategoriesPage: React.FC = () => {
   const [categories, setCategories] = useState<MenuCategory[]>([]);

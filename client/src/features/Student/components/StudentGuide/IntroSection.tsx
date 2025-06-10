@@ -1,5 +1,5 @@
 import React from "react";
-import TypographyText from "../../../../shared/TypographyText";
+import TypographyText from "../../../../shared/components/TypographyText";
 
 const IntroSection: React.FC = () => {
   return (

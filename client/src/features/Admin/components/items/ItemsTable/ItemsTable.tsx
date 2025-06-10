@@ -18,7 +18,7 @@ import { enqueueSnackbar } from "notistack";
 import { useNavigate } from "react-router-dom";
 import { menuCategoryService } from "../../../services/menuCategory.service";
 import type { MenuCategory } from "../../../../../shared/types/MenuCategory";
-import TypographyText from "../../../../../shared/TypographyText";
+import TypographyText from "../../../../../shared/components/TypographyText";
 
 interface Props {
   items: MenuItem[];

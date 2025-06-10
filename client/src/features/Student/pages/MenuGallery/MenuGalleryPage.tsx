@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import type { MenuItem } from "../../../../shared/types/MenuItem";
-import TypographyText from "../../../../shared/TypographyText";
 import MenuGalleryGrid from "../../components/MenuGallery/MenuGalleryGrid/MenuGalleryGrid";
 import { menuItemService } from "../../../Admin/services/menuItem.service";
+import TypographyText from "../../../../shared/components/TypographyText";
 
 const MenuGalleryPage: React.FC = () => {
   const [items, setItems] = useState<MenuItem[]>([]);

@@ -8,9 +8,9 @@ import {
   TableRow,
 } from "@mui/material";
 import type { OrderItem } from "../../../../Order/types/OrderItem";
-import TypographyText from "../../../../../shared/TypographyText";
 import { menuItemService } from "../../../services/menuItem.service";
 import type { MenuItem } from "../../../../../shared/types/MenuItem";
+import TypographyText from "../../../../../shared/components/TypographyText";
 
 interface Props {
   items: OrderItem[];

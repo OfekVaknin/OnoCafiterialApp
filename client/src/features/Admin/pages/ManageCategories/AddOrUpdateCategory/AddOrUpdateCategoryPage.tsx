@@ -4,9 +4,9 @@ import Typography from "@mui/material/Typography";
 import { Box } from "@mui/material";
 import { menuCategoryService } from "../../../services/menuCategory.service";
 import type { MenuCategory } from "../../../../../shared/types/MenuCategory";
-import BaseInput from "../../../../../shared/BaseInput";
-import BaseButton from "../../../../../shared/BaseButton";
 import { useSnackbar } from "notistack";
+import BaseInput from "../../../../../shared/components/BaseInput";
+import BaseButton from "../../../../../shared/components/BaseButton";
 
 const AddOrUpdateCategoryPage: React.FC = () => {
   const { id } = useParams();

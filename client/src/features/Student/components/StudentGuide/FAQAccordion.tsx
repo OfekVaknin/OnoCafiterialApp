@@ -6,7 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import TypographyText from "../../../../shared/TypographyText";
+import TypographyText from "../../../../shared/components/TypographyText";
 
 const questions = [
   {

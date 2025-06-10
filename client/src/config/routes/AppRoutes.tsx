@@ -7,7 +7,7 @@ import DashboardPage from "../../features/Admin/pages/Dashboard/Dashboard";
 import ManageCategoriesPage from "../../features/Admin/pages/ManageCategories/ManageCategoriesPage";
 import ManageItemsPage from "../../features/Admin/pages/ManageItemsPage/ManageItemsPage";
 import ManageOrdersPage from "../../features/Admin/pages/ManageOrders/ManageOrdersPage";
-import LoginPage from "../../features/Auth/pages/Register/LoginPage";
+import LoginPage from "../../features/Auth/pages/Login/LoginPage";
 import RegisterPage from "../../features/Auth/pages/Register/RegisterPage";
 import ProtectedRoute from "./ProtectedRoute";
 import HomeRedirect from "./HomeRedirect";

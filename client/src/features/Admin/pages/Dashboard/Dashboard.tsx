@@ -1,6 +1,5 @@
 import React from "react";
 import Box from "@mui/material/Box";
-import TypographyText from "../../../../shared/TypographyText";
 import DashboardOrdersSummaryCard from "../../components/dashboard/OrdersSummaryCard/DashboardOrdersSummaryCard";
 import DashboardOrderStatusCounters from "../../components/dashboard/OrderStatusCounters/DashboardOrderStatusCounters";
 import DashboardWeeklyPopularItemsCard from "../../components/dashboard/WeeklyPopularItemsCard/DashboardWeeklyPopularItemsCard";
@@ -11,6 +10,7 @@ import DashboardCancelledOrdersChart from "../../components/dashboard/CancelledO
 import DashboardHourlyOrdersChart from "../../components/dashboard/HourlyOrdersChart/DashboardHourlyOrdersChart";
 import DashboardQuickActionsPanel from "../../components/dashboard/QuickActionsPanel/DashboardQuickActionsPanel";
 import DashboardAlertsPanel from "../../components/dashboard/AlertsPanel/DashboardAlertsPanel";
+import TypographyText from "../../../../shared/components/TypographyText";
 
 export const dashboardCardStyle = {
   p: 3,

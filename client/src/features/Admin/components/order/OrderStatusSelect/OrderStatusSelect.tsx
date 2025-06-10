@@ -3,8 +3,8 @@ import { OrderStatusEnum } from "../../../../Order/enums/OrderStatusEnum";
 import { orderService } from "../../../../Order/services/order.service";
 import type { Order } from "../../../../Order/types/Order";
 import type { SelectChangeEvent } from "@mui/material";
-import TypographyText from "../../../../../shared/TypographyText";
-import BaseSelect from "../../../../../shared/BaseSelect";
+import TypographyText from "../../../../../shared/components/TypographyText";
+import BaseSelect from "../../../../../shared/components/BaseSelect";
 
 interface Props {
   order: Order;

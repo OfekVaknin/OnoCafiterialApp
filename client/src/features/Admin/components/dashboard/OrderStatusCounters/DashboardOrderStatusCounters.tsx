@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Paper, Box } from "@mui/material";
-import TypographyText from "../../../../../shared/TypographyText";
 import { orderService } from "../../../../Order/services/order.service";
 import { OrderStatusEnum } from "../../../../Order/enums/OrderStatusEnum";
 import type { Order } from "../../../../Order/types/Order";
 import { dashboardCardStyle } from "../../../pages/Dashboard/Dashboard";
+import TypographyText from "../../../../../shared/components/TypographyText";
 
 const DashboardOrderStatusCounters: React.FC = () => {
   const [statusCounts, setStatusCounts] = useState<

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Paper, Box } from "@mui/material";
-import TypographyText from "../../../../../shared/TypographyText";
 import { dashboardCardStyle } from "../../../pages/Dashboard/Dashboard";
 import { orderService } from "../../../../Order/services/order.service";
 import { menuItemService } from "../../../services/menuItem.service";
 import type { Order } from "../../../../Order/types/Order";
+import TypographyText from "../../../../../shared/components/TypographyText";
 
 const DashboardOrdersSummaryCard: React.FC = () => {
   const [ordersToday, setOrdersToday] = useState<Order[]>([]);

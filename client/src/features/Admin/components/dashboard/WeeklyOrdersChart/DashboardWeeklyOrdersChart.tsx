@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Paper, Box } from "@mui/material";
-import TypographyText from "../../../../../shared/TypographyText";
 import { orderService } from "../../../../Order/services/order.service";
 import {
   BarChart,
@@ -13,6 +12,7 @@ import {
 } from "recharts";
 import type { Order } from "../../../../Order/types/Order";
 import { dashboardCardStyle } from "../../../pages/Dashboard/Dashboard";
+import TypographyText from "../../../../../shared/components/TypographyText";
 
 interface ChartData {
   date: string;

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Paper, Box } from "@mui/material";
-import TypographyText from "../../../../../shared/TypographyText";
 import { orderService } from "../../../../Order/services/order.service";
 import type { Order } from "../../../../Order/types/Order";
 import { menuItemService } from "../../../services/menuItem.service";
 import { dashboardCardStyle } from "../../../pages/Dashboard/Dashboard";
+import TypographyText from "../../../../../shared/components/TypographyText";
 
 interface TopItem {
   menuItemId: string;

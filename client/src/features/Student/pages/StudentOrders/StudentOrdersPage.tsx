@@ -1,7 +1,7 @@
 import React from "react";
 import { Box } from "@mui/material";
-import TypographyText from "../../../../shared/TypographyText";
 import OrderList from "../../../Admin/components/order/OrderList/OrderList";
+import TypographyText from "../../../../shared/components/TypographyText";
 
 const StudentOrdersPage: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
 import React from "react";
 import { List, ListItem, ListItemText } from "@mui/material";
-import TypographyText from "../../../../shared/TypographyText";
+import TypographyText from "../../../../shared/components/TypographyText";
 
 const FeaturesSection: React.FC = () => {
   return (
